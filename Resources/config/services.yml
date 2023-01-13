@@ -1,7 +1,6 @@
 services:
     pix_sortable_behavior.position.orm:
         class: Pix\SortableBehaviorBundle\Services\PositionORMHandler
-        alias: Pix\SortableBehaviorBundle\Services\PositionORMHandler
         public: true
         arguments:
             - "@doctrine.orm.entity_manager"
