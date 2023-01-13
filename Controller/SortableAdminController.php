@@ -12,9 +12,11 @@ namespace Pix\SortableBehaviorBundle\Controller;
 
 use Doctrine\Common\Util\ClassUtils;
 use Pix\SortableBehaviorBundle\Services\PositionHandler;
+use Pix\SortableBehaviorBundle\Services\PositionORMHandler;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class SortableAdminController
@@ -30,10 +32,8 @@ class SortableAdminController extends CRUDController
      *
      * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function moveAction($position)
+    public function moveAction($position, TranslatorInterface $translator, PositionORMHandler $positionHandler)
     {
-        $translator = $this->get('translator');
-
         if (!$this->admin->isGranted('EDIT')) {
             $this->addFlash(
                 'sonata_flash_error',
@@ -46,8 +46,6 @@ class SortableAdminController extends CRUDController
             ));
         }
 
-        /** @var PositionHandler $positionHandler */
-        $positionHandler = $this->get('pix_sortable_behavior.position');
         $object          = $this->admin->getSubject();
 
         $lastPositionNumber = $positionHandler->getLastPosition($object);
