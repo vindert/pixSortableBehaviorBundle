@@ -23,3 +23,5 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+
+    Pix\SortableBehaviorBundle\Services\PositionORMHandler: '@pix_sortable_behavior.position.orm'
