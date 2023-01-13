@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class SortableAdminController
@@ -32,7 +33,7 @@ class SortableAdminController extends CRUDController
      *
      * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function moveAction($position, TranslatorInterface $translator, PositionORMHandler $positionHandler)
+    public function moveAction($position, TranslatorInterface $translator, PositionORMHandler $positionHandler, Request $request)
     {
         if (!$this->admin->isGranted('EDIT')) {
             $this->addFlash(
@@ -56,7 +57,7 @@ class SortableAdminController extends CRUDController
 
         $this->admin->update($object);
 
-        if ($this->isXmlHttpRequest()) {
+        if ($this->isXmlHttpRequest($request)) {
             return $this->renderJson(array(
                 'result' => 'ok',
                 'objectId' => $this->admin->getNormalizedIdentifier($object)
